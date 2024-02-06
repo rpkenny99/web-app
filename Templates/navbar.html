@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://kit.fontawesome.com/57d226ad18.js" crossorigin="anonymous"></script>        <style>
+            .navbar {
+                       background-color: #0c2743ff;
+                       display: flex;
+                       box-shadow: 2px 2px 35px 2px #030c16;
+                       border-radius: 10px;
+                       padding: 10px 20px;
+                       align-items: center;
+                       justify-content: space-between;
+                   }
+                   .navbar ul{
+                       list-style: none;
+                       display: flex;
+                   }
+        
+                   .navbar .menu a{
+                       display: flex;
+                       margin-right: 40px;
+                       font-weight: 750;
+                       font-family: Arial, Helvetica, sans-serif;
+                       font-size: 40px;
+                       text-decoration: none;
+                       color: white;
+                       transition: color 0.3s; /* Add transition for smooth color change */
+                   }
+        
+                   .navbar .menu a:hover {
+                       color: #009bcf; /* Change color on hover */
+                       text-shadow: 2px 2px 4px #030c16;
+                   }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar">
+            <div style="align-items: center; display: flex;">
+                <img style="margin-right: 30px; width: 175px; height: auto;" 
+                        src="{{ url_for('static', filename='nepeanbluedevilslogo.png') }}" 
+                        alt="Blue Devils Logo">   
+                <ul class="menu">
+                    <li><a href="/team">TEAM</a></li>
+                    <li><a href="/stat-track">STAT TRACK</a></li>
+                </ul>
+            </div>
+            <ul class="menu">
+                <li><a href="/logout">
+                    <div class="menu"><i class="fa-solid fa-right-from-bracket"></i></div>
+                </a></li>
+            </ul>
+        </nav>
+        {% block navbar %}
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <style>
+        .add-player-table {
+            margin: auto;
+            border-collapse: collapse;
+            padding: 10px;
+            text-align: center;
+            margin-top: 45px;
+        }
+
+        .add-player-table td:not(:last-child) {
+            border-right: 10px solid transparent; /* Adjust the border size for spacing between columns */
+        }
+
+        .user-input {
+            background-color: #030c16ff;
+            border-color: transparent;
+            border-radius: 10px;
+            height: 40px;
+            color: white;
+            text-align: center;
+            font-weight: bold;
+            font-size: 30px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .user-input::placeholder {
+            color: #595959;
+        }
+        .team-table {
+            font-size: 40px;
+            font-weight: bold;
+            font-family: Arial, Helvetica, sans-serif;
+            color: white;
+            margin: auto;
+            border-collapse: collapse;
+            padding: 10px;
+        }
+        
+        .team-table td{
+            padding: 0px 10px;
+        }
+
+        .team-table td {
+            border-right: 50px solid transparent;
+            border-left: 50px solid transparent;
+        }
+
+        .team-table tbody tr:nth-child(even) {
+            background-color: rgb(5, 16, 30); /* Background color for every other row */
+        }
+        .team-table tbody tr:hover {
+            background-color: #009bcf; /* Background color on hover */
+            transition: background-color 0.3s
+        }
+
+        .team-table .update-item{
+            color: transparent;
+            margin-right: 20px;
+        }
+
+        .team-table tbody tr:hover .update-item {
+            color: white;
+            transition: color 0.3s;
+        }
+        
+        .update-button{
+            border: none;
+            background: none;
+            padding: 0;
+            margin: 0;
+            font: inherit;
+            color: inherit;
+        }
+        .update-button .update-item:hover{
+            cursor: pointer;
+        }
+    </style>
+    <script src="https://kit.fontawesome.com/57d226ad18.js" crossorigin="anonymous"></script> 
+</head>
+
+<body style="background-color: #05172bff;">
+    {% extends "navbar.html" %}
+    {% block navbar %}
+    <div style="margin-top: 50px;">
+        <table class="team-table">
+            <tbody>
+                {% if team != None %}
+                    {% for jerseyNum in team %}
+                    <tr>
+                        <td>{{jerseyNum}}</td>
+                        <td>{{team.get(jerseyNum).get("firstName")}}</td>
+                        <td>{{team.get(jerseyNum).get("lastName")}}</td>
+                        <td style="display: flex; border-left: 5px; border-right: 5px;">
+                            <form name="editPlayerForm" action="#" method="post">
+                                <input type="hidden" name="editPlayerForm" value="{{jerseyNum}}">
+                                <button class="update-button">
+                                    <div class="update-item">
+                                        <i class="fa-solid fa-pencil"></i>
+                                    </div>
+                                </button>
+                            </form>
+                            <form name="deletePlayerForm" action="#" method="post">
+                                <input type="hidden" name="deletePlayerForm" value="{{jerseyNum}}">
+                                <button class="update-button">
+                                    <div class="update-item">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </div>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+    <form id="newPlayerForm" name="newPlayerForm" method="post" action="#" onsubmit="return validateForm()">
+        <table class="add-player-table">
+            <tbody>
+                <tr>
+                    <td>
+                        <input class="user-input" style="width: 170px;" type="text" 
+                        id="newPlayerNumber" 
+                        name="newPlayerNumber" 
+                        placeholder="#"
+                        value="{{ editedPlayer.get('number') if editedPlayer else ''}}">
+                    </td>
+                    <td>
+                        <input class="user-input" style="width: 340px;" type="text" 
+                        id="newPlayerFirstName" 
+                        name="newPlayerFirstName" 
+                        placeholder="first name"
+                        value="{{ editedPlayer.get('firstName') if editedPlayer else ''}}">
+                    </td>
+                    <td>
+                        <input class="user-input" style="width: 340px;" type="text" 
+                        id="newPlayerLastName" 
+                        name="newPlayerLastName" 
+                        placeholder="last name"
+                        value="{{  editedPlayer.get('lastName') if editedPlayer else '' }}">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <script>
+        function validateForm() {
+            var number = document.getElementById('newPlayerNumber').value;
+            var firstName = document.getElementById('newPlayerFirstName').value;
+            var lastName = document.getElementById('newPlayerLastName').value;
+
+            if (number.trim() !== '' && firstName.trim() !== '' && lastName.trim() !== '') {
+                return true; // Allow form submission
+            } else {
+                return false; // Prevent form submission
+            }
+        }
+
+        document.getElementById('newPlayerNumber').addEventListener('keypress', function (event) {
+            if (event.key === 'Enter') {
+                if (validateForm()) {
+                    document.getElementById('newPlayerForm').submit(); // Submit the form
+                }
+            }
+        });
+
+        document.getElementById('newPlayerFirstName').addEventListener('keypress', function (event) {
+            if (event.key === 'Enter') {
+                if (validateForm()) {
+                    document.getElementById('newPlayerForm').submit(); // Submit the form
+                }
+            }
+        });
+
+        document.getElementById('newPlayerLastName').addEventListener('keypress', function (event) {
+            if (event.key === 'Enter') {
+                if (validateForm()) {
+                    document.getElementById('newPlayerForm').submit(); // Submit the form
+                }
+            }
+        });
+    </script>
+</body>
+{% endblock %}
+</html>

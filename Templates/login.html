@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Blue Devils Stat Tracker</title>
+        <style>
+            .center {
+                text-align: center;
+                margin-top: 200px; /* Adjust this value to move the div downward */
+            }
+
+            .user-input {
+                background-color: #030c16ff;
+                border-color: transparent;
+                border-radius: 5px;
+                height: 30px;
+                width: 250px;
+                color: white;
+                text-align: center;
+                font-weight: bold;
+            }
+
+            .user-input::placeholder {
+                color: #595959;
+            }
+
+            .login-btn {
+                background-color: #030c16ff;
+                border: none;
+                border-radius: 5px;
+                color: white;
+                height: 30px;
+                width: 250px;
+                font-weight: bold;
+                cursor: pointer;
+                opacity: 0.5; /* Initially set to disabled */
+            }
+
+            .login-btn:enabled:hover {
+                background-color: #009bcf; 
+            }
+
+            .login-btn:enabled {
+                opacity: 1;
+            }
+            .create-account-btn {
+                background-color: #030c16ff;
+                border: none;
+                border-radius: 5px;
+                color: white;
+                height: 30px;
+                width: 250px;
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+            .create-account-btn:hover {
+                background-color: #009bcf; 
+            }
+        </style>
+    </head>
+    <body style="background-color:#05172bff;">
+            <div class="center">
+                <img src="{{ url_for('static', filename='nepeanbluedevilslogo.png') }}" alt="Blue Devils Logo">
+                <form name="loginForm" method="post" action="#">
+                    <div style="margin-top: 20px;">
+                        <input  class="user-input" type="text" 
+                                id="username" 
+                                name="username" 
+                                placeholder="Username" 
+                                oninput="checkInputs()">
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <input  class="user-input" type="password" 
+                                id="password" 
+                                name="password" 
+                                placeholder="Password" 
+                                oninput="checkInputs()">
+                    </div>
+                    <div>
+                        {% with messages = get_flashed_messages() %}
+                            {% if messages %}
+                                {% for msg in messages %}
+                                    <p style="color: red;">{{msg}}</p>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <input  class="login-btn" type="submit" 
+                                value="Login" 
+                                id="loginBtn" 
+                                disabled>
+                    </div>
+                </form>
+                <form name="createAccountForm" method="post" action="#">
+                    <div style="margin-top: 30px;">
+                        <input  class="create-account-btn" type="submit" 
+                                value="Or Create Account"
+                                id="createAccountBtn">
+                    </div>
+                </form>
+            </div>
+
+        <script>
+            function checkInputs() {
+                var username = document.getElementById('username').value;
+                var password = document.getElementById('password').value;
+                var loginBtn = document.getElementById('loginBtn');
+
+                if (username.trim() !== '' && password.trim() !== '') {
+                    loginBtn.disabled = false;
+                } else {
+                    loginBtn.disabled = true;
+                }
+            }
+
+            // Listen for the Enter key press
+            document.addEventListener('keypress', function (event) {
+                if (event.key === 'Enter') {
+                    // Trigger the form submission when Enter key is pressed
+                    document.getElementById('loginBtn').click();
+                }
+            });
+        </script>
+    </body>
+</html>
